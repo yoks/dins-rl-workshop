@@ -44,6 +44,7 @@ pip install -e .
 Install fceux and super-mario-gym environment
 ```bash
 apt-get install fceux
+pip install git+https://github.com/yoks/gym-super-mario.git
 ```
 ## Training
 ```bash
