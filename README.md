@@ -13,7 +13,8 @@ Install Python Virtual Env.
 ```bash
 pip install virtualenv
 pip install virtualenvwrapper
-export WORKON_HOME=~/Envs
+    export WORKON_HOME=~/Envs
+    source /usr/local/bin/virtualenvwrapper.sh
 mkdir -p $WORKON_HOME
 # Create virtual env
 mkvirtualenv dins-workshop
@@ -43,8 +44,9 @@ pip install -e .
 #### Step 4
 Install fceux and super-mario-gym environment
 ```bash
-apt-get install fceux
-pip install git+https://github.com/yoks/gym-super-mario.git
+sudo apt-get install fceux
+git clone https://github.com/yoks/gym-super-mario.git
+pip install -e .
 ```
 ## Training
 ```bash

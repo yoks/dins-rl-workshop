@@ -11,7 +11,8 @@ class RandomAgent(object):
         return self.action_space.sample()
 
 
-def run_random_agent(env, episodes):
+def run_random_agent(env_id, episodes):
+    env = gym.make(env_id)
     env = MarioActionSpaceWrapper(env)
     env = ProcessFrame84(env)
 
