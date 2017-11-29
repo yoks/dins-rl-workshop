@@ -2,7 +2,7 @@
 This is testing RL environment for DINS RL Workshop. Repository contains basic scaffold and setup guide.
 
 ## Setup
-Environment can be setup on Linux or Windows (using linux subsystem) machines.
+Environment can be setup on Linux, MacOS or Windows (using linux subsystem) machines.
 Guide assumes Ubuntu 16.04-LTS is used.
 
 For Windows, XServer should be installed (like `Xming`)
