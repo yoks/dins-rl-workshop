@@ -11,6 +11,7 @@ For Windows, XServer should be installed (like `Xming`)
 #### Step 1
 Install Python Virtual Env.
 ```bash
+sudo apt-get install virtualenv
 pip install virtualenv
 pip install virtualenvwrapper
 export WORKON_HOME=~/Envs
@@ -36,7 +37,7 @@ pip install -e .
 #### Step 3
 Install OpenAI baselines
 ```bash
-sudo apt-get install libcr-dev mpich2 mpich2-doc zlib1g-dev cmake python-opencv
+sudo apt-get install libcr-dev libopenmpi-dev mpich mpich-doc zlib1g-dev cmake python-opencv 
 git clone https://github.com/openai/baselines.git
 cd baselines
 pip install -e .
