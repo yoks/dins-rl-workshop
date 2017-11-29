@@ -11,7 +11,7 @@ import tensorflow as tf
 
 
 class DQNAgent:
-    def __init__(self, state_size, action_size, epsilon=0.01, cpu=False):
+    def __init__(self, state_size, action_size, epsilon=0.8, cpu=False):
         self.state_size = state_size
         self.action_size = action_size
         self.memory = deque(maxlen=5048)
@@ -19,7 +19,7 @@ class DQNAgent:
         self.epsilon = epsilon  # exploration rate
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.99
-        self.learning_rate = 0.001
+        self.learning_rate = 1e-2
         self.device = '/cpu:0' if cpu else '/gpu:0'
         self.model = self._build_model()
         self.target_model = self._build_model()
@@ -109,8 +109,8 @@ def train_dqn_agent(env_id, episodes):
                       .format(episode, episodes, reward_sum, agent.epsilon, actions))
                 break
         agent.replay()
-        if episode % 5 == 0:
-            agent.save("./model/dqn-mario_{}.h5".format(episode))
+        #if episode % 5 == 0:
+           # agent.save("./model/dqn-mario_{}.h5".format(episode))
 
 
 def run_dqn_agent(env_id):

@@ -25,7 +25,7 @@ def learn(policy, env, seed, nsteps=5, nstack=4, total_timesteps=int(80e6), vf_c
     model = Model(policy=policy, ob_space=ob_space, ac_space=ac_space, nenvs=nenvs, nsteps=nsteps, nstack=nstack, num_procs=num_procs, ent_coef=ent_coef, vf_coef=vf_coef,
                   max_grad_norm=max_grad_norm, lr=lr, alpha=alpha, epsilon=epsilon, total_timesteps=total_timesteps, lrschedule=lrschedule)
     runner = Runner(env, model, nsteps=nsteps, nstack=nstack, gamma=gamma)
-    model.load('./model/a2c/model.h5')
+    #model.load('./model/a2c/model.h5')
     nbatch = nenvs*nsteps
     tstart = time.time()
     for update in range(1, total_timesteps//nbatch+1):
@@ -78,7 +78,7 @@ def make_env(rank, env_id, seed):
 def train_a2c_agent(env_id, timesteps, seed=0, num_cpu=4):
     set_global_seeds(seed)
     env = SubprocVecEnv([make_env(i, env_id, seed) for i in range(num_cpu)])
-    learn(LstmPolicy, env, seed, nsteps=5, nstack=4, total_timesteps=int(timesteps), vf_coef=0.5, ent_coef=0.01,
+    learn(LstmPolicy, env, seed, nsteps=20, nstack=4, total_timesteps=int(timesteps), vf_coef=0.5, ent_coef=0.01,
           max_grad_norm=0.5, lr=7e-4, lrschedule='constant', epsilon=1e-5, alpha=0.99, gamma=0.99, log_interval=100)
 
 
