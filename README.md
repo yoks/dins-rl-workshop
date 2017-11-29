@@ -13,8 +13,8 @@ Install Python Virtual Env.
 ```bash
 pip install virtualenv
 pip install virtualenvwrapper
-    export WORKON_HOME=~/Envs
-    source /usr/local/bin/virtualenvwrapper.sh
+export WORKON_HOME=~/Envs
+source /usr/local/bin/virtualenvwrapper.sh
 mkdir -p $WORKON_HOME
 # Create virtual env
 mkvirtualenv dins-workshop

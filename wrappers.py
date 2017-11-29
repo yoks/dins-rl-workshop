@@ -3,6 +3,7 @@ import gym
 import numpy as np
 from gym import spaces
 
+
 # https://github.com/chris-chris/mario-rl-tutorial/blob/master/wrappers.py
 class ProcessFrame84(gym.ObservationWrapper):
     def __init__(self, env=None):

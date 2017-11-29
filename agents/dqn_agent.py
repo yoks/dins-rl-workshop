@@ -8,8 +8,7 @@ from keras.optimizers import Adam
 from keras import backend as K
 from wrappers import MarioActionSpaceWrapper, ProcessFrame84
 import tensorflow as tf
-from matplotlib import pyplot as plt
-from vis.utils import utils
+
 
 class DQNAgent:
     def __init__(self, state_size, action_size, epsilon=0.01, cpu=False):
