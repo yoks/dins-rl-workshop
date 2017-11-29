@@ -4,7 +4,7 @@ import sys
 from absl import app
 from absl import flags
 
-from agents import *
+import gym
 
 import ppaquette_gym_super_mario
 
@@ -17,13 +17,8 @@ flags.DEFINE_float("timesteps", 2e10, "Number of episodes")
 
 def _main(unused_argv):
     FLAGS(sys.argv)
-
-    if FLAGS.agent == "random":
-        run_random_agent(FLAGS.env, FLAGS.episodes)
-    elif FLAGS.agent == "dqn":
-        train_dqn_agent(FLAGS.env, FLAGS.episodes)
-    elif FLAGS.agent == "a2c":
-        train_a2c_agent(FLAGS.env, FLAGS.timesteps)
+    env = gym.make(FLAGS.env)
+    env.reset()
 
 
 if __name__ == '__main__':
