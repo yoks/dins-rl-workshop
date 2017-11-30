@@ -21,6 +21,7 @@ class ProcessFrame84(gym.ObservationWrapper):
         #cv2.waitKey(1)
         return diff.astype(np.uint8)
 
+
 class ToDiscreteWrapper(gym.ActionWrapper):
     """
         Wrapper to convert MultiDiscrete action space to Discrete

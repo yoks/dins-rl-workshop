@@ -20,6 +20,8 @@ def _main(unused_argv):
     FLAGS(sys.argv)
     if FLAGS.agent == 'random':
         run_random_agent(FLAGS.env, FLAGS.episodes)
+    elif FLAGS.agent == 'a2c':
+        train_a2c_agent(FLAGS.env, FLAGS.timesteps)
 
 
 if __name__ == '__main__':

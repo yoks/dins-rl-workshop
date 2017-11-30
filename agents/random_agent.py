@@ -16,7 +16,7 @@ def run_random_agent(env_id, episodes):
     for i in range(episodes):
         env = gym.make(env_id)
         env = ToDiscreteWrapper(env)
-        env = ProcessFrame84(env) # [1, 84, 84, 3]
+        env = ProcessFrame84(env)
 
         env.reset()
         while True:
