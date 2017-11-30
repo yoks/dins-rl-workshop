@@ -14,7 +14,8 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string("env", "ppaquette/SuperMarioBros-1-1-v0", "RL environment to train.")
 flags.DEFINE_string("agent", "a2c", "RL algorithm to use.")
 flags.DEFINE_integer("episodes", 10000, "Number of episodes")
-flags.DEFINE_float("timesteps", 2e10, "Number of episodes")
+flags.DEFINE_float("timesteps", 2000000, "Number of timesteps")
+
 
 
 def _main(unused_argv):

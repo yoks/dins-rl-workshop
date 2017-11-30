@@ -22,6 +22,8 @@ def _main(unused_argv):
         run_dqn_agent(FLAGS.env)
     elif FLAGS.agent == "a2c":
         run_a2c_agent(FLAGS.env, 0)
+    elif FLAGS.agent == "acktr":
+        run_acktr_agent(FLAGS.env, 0)
 
 
 if __name__ == '__main__':

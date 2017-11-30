@@ -22,8 +22,8 @@ def learn(policy, env, seed, total_timesteps=int(40e6), gamma=0.99, log_interval
     nenvs = env.num_envs
     ob_space = env.observation_space
     ac_space = env.action_space
-    make_model = lambda : Model(policy, ob_space, ac_space, nenvs, total_timesteps, nprocs=nprocs, nsteps
-    =nsteps, nstack=nstack, ent_coef=ent_coef, vf_coef=vf_coef, vf_fisher_coef=
+    make_model = lambda : Model(policy, ob_space, ac_space, nenvs, total_timesteps, nprocs=nprocs, nsteps=nsteps,
+                                nstack=nstack, ent_coef=ent_coef, vf_coef=vf_coef, vf_fisher_coef=
                                 vf_fisher_coef, lr=lr, max_grad_norm=max_grad_norm, kfac_clip=kfac_clip,
                                 lrschedule=lrschedule)
     if save_interval and logger.get_dir():
@@ -31,7 +31,7 @@ def learn(policy, env, seed, total_timesteps=int(40e6), gamma=0.99, log_interval
         with open(osp.join(logger.get_dir(), 'make_model.pkl'), 'wb') as fh:
             fh.write(cloudpickle.dumps(make_model))
     model = make_model()
-
+    model.load('./model/checkpoint00250')
     runner = Runner(env, model, nsteps=nsteps, nstack=nstack, gamma=gamma)
     nbatch = nenvs*nsteps
     tstart = time.time()
@@ -76,9 +76,38 @@ def make_env(rank, env_id, seed):
     return _thunk
 
 
-def train_acktr_agent(env_id, timesteps, seed=6, num_cpu=3):
+def run(policy, env, seed, total_timesteps=int(40e6), gamma=0.99, nprocs=32, nsteps=20,
+        nstack=4, ent_coef=0.01, vf_coef=0.5, vf_fisher_coef=1.0, lr=0.25, max_grad_norm=1.0,
+        kfac_clip=0.001, lrschedule='linear'):
+    tf.reset_default_graph()
+    set_global_seeds(seed)
+
+    nenvs = env.num_envs
+    ob_space = env.observation_space
+    ac_space = env.action_space
+    num_procs = len(env.remotes)
+    model = Model(policy, ob_space, ac_space, nenvs, total_timesteps, nprocs=nprocs, nsteps=nsteps,
+                           nstack=nstack, ent_coef=ent_coef, vf_coef=vf_coef, vf_fisher_coef=
+                           vf_fisher_coef, lr=lr, max_grad_norm=max_grad_norm, kfac_clip=kfac_clip,
+                           lrschedule=lrschedule)
+    model.load('./model/acktr/checkpoint00250')
+    runner = Runner(env, model, nsteps=nsteps, nstack=nstack, gamma=gamma)
+    while True:
+        runner.run()
+
+
+def train_acktr_agent(env_id, timesteps, seed=6, num_cpu=2):
     set_global_seeds(seed)
     env = SubprocVecEnv([make_env(i, env_id, seed) for i in range(num_cpu)])
     learn(CnnPolicy, env, seed, total_timesteps=int(timesteps * 1.1), nprocs=num_cpu, save_interval=50)
+
+
+def run_acktr_agent(env_id, seed):
+    env = gym.make(env_id)
+    env = MarioActionSpaceWrapper(env)
+    env = ProcessFrame84(env)
+    env.seed(seed)
+    env = SubprocVecEnv([make_env(0, env_id, seed)])
+    run(CnnPolicy, env, seed, total_timesteps=int(5000), nprocs=1)
 
 
