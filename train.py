@@ -16,6 +16,7 @@ flags.DEFINE_string("agent", "a2c", "RL algorithm to use.")
 flags.DEFINE_integer("episodes", 10000, "Number of episodes")
 flags.DEFINE_float("timesteps", 2e10, "Number of episodes")
 
+
 def _main(unused_argv):
     FLAGS(sys.argv)
 
@@ -32,6 +33,8 @@ def _main(unused_argv):
         train_a2c_agent(FLAGS.env, FLAGS.timesteps)
     elif FLAGS.agent == "acktr":
         train_acktr_agent(FLAGS.env, FLAGS.timesteps)
+    elif FLAGS.agent == "ppo":
+        train_ppo(FLAGS.env, FLAGS.timesteps)
 
 
 if __name__ == '__main__':

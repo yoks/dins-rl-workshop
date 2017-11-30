@@ -8,15 +8,19 @@ from gym import spaces
 class ProcessFrame84(gym.ObservationWrapper):
     def __init__(self, env=None):
         super(ProcessFrame84, self).__init__(env)
-        self.observation_space = spaces.Box(low=0, high=255, shape=(84, 84, 3))
+        self.observation_space = spaces.Box(low=0, high=255, shape=(84, 84, 1))
+        self.prev_image = None
 
     def _observation(self, obs):
         return self.process(obs)
 
-    @staticmethod
-    def process(img):
-        x_t = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA)
-        diff = np.reshape(x_t, (84, 84, 3))
+    def process(self, img):
+        x_t = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        x_t = cv2.resize(x_t, (84, 84), interpolation=cv2.INTER_AREA)
+        self.prev_image = x_t if self.prev_image is None else self.prev_image
+        diff = cv2.absdiff(x_t, self.prev_image)
+        self.prev_image = x_t
+        diff = np.reshape(diff, (84, 84, 1))
         diff = np.nan_to_num(diff)
         return diff.astype(np.uint8)
 
