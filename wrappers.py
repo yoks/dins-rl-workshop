@@ -1,6 +1,25 @@
 import gym
 from gym import spaces
+import numpy as np
+import cv2
 
+
+class ProcessFrame84(gym.ObservationWrapper):
+    def __init__(self, env=None):
+        super(ProcessFrame84, self).__init__(env)
+        self.observation_space = spaces.Box(low=0, high=255, shape=(84, 84, 3))
+        self.window = cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
+
+    def _observation(self, obs):
+        return self.process(obs)
+
+    def process(self, img):
+        x_t = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA)
+        diff = np.reshape(x_t, (84, 84, 3))
+        diff = np.nan_to_num(diff)
+        #cv2.imshow('frame', diff)
+        #cv2.waitKey(1)
+        return diff.astype(np.uint8)
 
 class ToDiscreteWrapper(gym.ActionWrapper):
     """

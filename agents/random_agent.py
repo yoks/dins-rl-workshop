@@ -1,6 +1,6 @@
 import gym
 
-#from wrappers import MarioActionSpaceWrapper, ProcessFrame84
+from wrappers import ToDiscreteWrapper, ProcessFrame84
 
 
 class RandomAgent(object):
@@ -15,8 +15,8 @@ def run_random_agent(env_id, episodes):
 
     for i in range(episodes):
         env = gym.make(env_id)
-        #env = MarioActionSpaceWrapper(env)
-        #env = ProcessFrame84(env)
+        env = ToDiscreteWrapper(env)
+        env = ProcessFrame84(env) # [1, 84, 84, 3]
 
         env.reset()
         while True:
